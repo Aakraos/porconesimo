@@ -81,7 +81,7 @@ const generatePDF = async (name) => {
 
     
   //get font
-  const fontBytes = await fetch("/fonts/Sanchez-Regular.ttf").then((res) =>
+  const fontBytes = await fetch("https://github.com/Aakraos/porconesimo/blob/main/fonts/Sanchez-Regular.ttf").then((res) =>
   res.arrayBuffer()
 );
   // Embed our custom font in the document
