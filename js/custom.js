@@ -65,7 +65,6 @@ PDFDocument.registerFontkit(fontkit);
 
   const userName = document.getElementById("name");
   const submitBtn = document.getElementById("submitBtn");
-  const { PDFDocument, rgb } = PDFLib;
   
   submitBtn.addEventListener("click", async () => {
       const val = userName.value;
