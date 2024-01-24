@@ -77,7 +77,7 @@ function myMap() {
               const existingPdfBytes = await responsePdf.arrayBuffer();
   
               const pdfDoc = await PDFDocument.load(existingPdfBytes);
-              const fontBytes = await fetch('https://aakraos.github.io/porconesimo/assets/Certificate.pdf', {
+              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf', {
                   method: 'GET',
                   mode: 'cors',
               }).then((res) => res.arrayBuffer());
