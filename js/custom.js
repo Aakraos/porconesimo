@@ -54,7 +54,6 @@ function myMap() {
   }
 
   // GENERATORE CERTIFICATO
-
   console.log("hello");
 
   const userName = document.getElementById("name");
@@ -63,6 +62,7 @@ function myMap() {
   
   submitBtn.addEventListener("click", async () => {
       const val = userName.value;
+  
       if (val.trim() !== "" && userName.checkValidity()) {
           try {
               const responsePdf = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf', {
@@ -77,7 +77,9 @@ function myMap() {
               const existingPdfBytes = await responsePdf.arrayBuffer();
   
               const pdfDoc = await PDFDocument.load(existingPdfBytes);
-              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf', {
+  
+              // Correggi il percorso del font
+              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf', {
                   method: 'GET',
                   mode: 'cors',
               }).then((res) => res.arrayBuffer());
@@ -101,6 +103,8 @@ function myMap() {
                   color: rgb(192 / 255, 192 / 255, 192 / 255),
               });
   
+              // Aggiungi eventuali altre modifiche al PDF, se necessario
+  
               const modifiedPdfBytes = await pdfDoc.save();
               const modifiedPdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
               const modifiedPdfUrl = URL.createObjectURL(modifiedPdfBlob);
@@ -115,59 +119,14 @@ function myMap() {
   });
   
   function saveAs(uri, filename) {
-    const link = document.createElement("a");
-    link.href = uri;
-    link.download = filename;
-
-    // Aggiungi il link al documento e simula il clic
-    document.body.appendChild(link);
-    link.click();
-
-    // Rimuovi il link dal documento
-    document.body.removeChild(link);
-}
-
-// TEST
-
-submitBtn.addEventListener("click", () => {
-  const val = userName.value;
-  if (val.trim() !== "" && userName.checkValidity()) {
-      generateAndDisplayPDF(val);
-  } else {
-      userName.reportValidity();
+      const link = document.createElement("a");
+      link.href = uri;
+      link.download = filename;
+  
+      // Aggiungi il link al documento e simula il clic
+      document.body.appendChild(link);
+      link.click();
+  
+      // Rimuovi il link dal documento
+      document.body.removeChild(link);
   }
-});
-
-const generateAndDisplayPDF = async (name) => {
-  const pdfDoc = await PDFDocument.create();
-  const page = pdfDoc.addPage();
-
-  const fontBytes = await fetch("https://aakraos.github.io/porconesimo/assets/fonts/Sanchez-Regular.ttf").then((res) =>
-      res.arrayBuffer()
-  );
-  const font = await pdfDoc.embedFont(fontBytes);
-
-  page.drawText(name, {
-      x: 50,
-      y: 500,
-      size: 12,
-      font: font,
-      color: rgb(0, 0, 0),
-  });
-
-  // ... Altre modifiche al PDF, se necessario ...
-
-  const pdfBytes = await pdfDoc.save();
-
-  // Converti i byte del PDF in un URL dati per visualizzarlo in un iframe
-  const pdfDataUri = "data:application/pdf;base64," + btoa(String.fromCharCode(...new Uint8Array(pdfBytes)));
-
-  // Crea un iframe e visualizza il PDF
-  const iframe = document.createElement("iframe");
-  iframe.src = pdfDataUri;
-  iframe.width = "100%";
-  iframe.height = "500px";
-
-  // Aggiungi l'iframe alla pagina
-  document.body.appendChild(iframe);
-};
