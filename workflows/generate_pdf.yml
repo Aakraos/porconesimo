@@ -29,3 +29,6 @@ jobs:
         with:
           name: new_certificate
           path: js/new_certificate.pdf
+
+          npm install
+node /path/relativo/al/tuo/script/generate_pdf.js
