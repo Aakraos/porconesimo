@@ -55,67 +55,70 @@ function myMap() {
 
   // GENERATORE CERTIFICATO
 
-console.log("hello")
-const userName = document.getElementById("name");
-const submitBtn = document.getElementById("submitBtn");
-const { PDFDocument, rgb, degrees } = PDFLib;
+  console.log("hello");
 
-
-submitBtn.addEventListener("click", () => {
-    const val =userName.value;
-    if (val.trim() !== "" && userName.checkValidity()) {
-        // console.log(val);
-        generatePDF(val);
+  const userName = document.getElementById("name");
+  const submitBtn = document.getElementById("submitBtn");
+  const { PDFDocument, rgb } = PDFLib;
+  
+  submitBtn.addEventListener("click", async () => {
+      const val = userName.value;
+      if (val.trim() !== "" && userName.checkValidity()) {
+          try {
+              const responsePdf = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf', {
+                  method: 'GET',
+                  mode: 'cors',
+              });
+  
+              if (!responsePdf.ok) {
+                  throw new Error('Errore nella richiesta del PDF: ' + responsePdf.statusText);
+              }
+  
+              const existingPdfBytes = await responsePdf.arrayBuffer();
+  
+              const pdfDoc = await PDFDocument.load(existingPdfBytes);
+              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf', {
+                  method: 'GET',
+                  mode: 'cors',
+              }).then((res) => res.arrayBuffer());
+  
+              const font = await pdfDoc.embedFont(fontBytes);
+  
+              const page = pdfDoc.getPages()[0];
+  
+              const maxWidth = page.getWidth() - 100;
+              const textWidth = font.widthOfTextAtSize(val, 58);
+              const fontSize = textWidth > maxWidth ? (58 * maxWidth) / textWidth : 58;
+  
+              const newTextWidth = font.widthOfTextAtSize(val, fontSize);
+              const newCenterX = (page.getWidth() - newTextWidth) / 2;
+  
+              page.drawText(val, {
+                  x: newCenterX,
+                  y: 520,
+                  size: fontSize,
+                  font: font,
+                  color: rgb(192 / 255, 192 / 255, 192 / 255),
+              });
+  
+              const modifiedPdfBytes = await pdfDoc.save();
+              const modifiedPdfBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+              const modifiedPdfUrl = URL.createObjectURL(modifiedPdfBlob);
+  
+              saveAs(modifiedPdfUrl, "newcertificate.pdf");
+          } catch (error) {
+              console.error(error);
+          }
       } else {
-        userName.reportValidity();
+          userName.reportValidity();
       }
-});
-const generatePDF = async (name) => {
-    const existingPdfBytes = await fetch("https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf").then((res) =>
-      res.arrayBuffer()
-    );
-
-    // Load a PDFDocument from the existing PDF bytes
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    pdfDoc.registerFontkit(fontkit);
-
-    
-  //get font
-  const fontBytes = await fetch("https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf").then((res) =>
-  res.arrayBuffer()
-);
-  // Embed our custom font in the document
-  const SanChezFont  = await pdfDoc.embedFont(fontBytes);
-   // Get the first page of the document
-   const pages = pdfDoc.getPages();
-   const firstPage = pages[0];
- 
-   // Get the width of the page
-  // Set the maximum width for the text
-  const maxWidth = firstPage.getWidth() - 100;
-
-  // Calculate the width of the text at the original font size
-  const textWidth = SanChezFont.widthOfTextAtSize(name, 58);
-
-  // Adjust the font size dynamically if it exceeds the maximum width
-  const fontSize = textWidth > maxWidth ? (58 * maxWidth) / textWidth : 58;
-
-  // Calculate the new width of the text with the dynamic font size
-  const newTextWidth = SanChezFont.widthOfTextAtSize(name, fontSize);
-
-  // Calculate the new center based on the new text width
-  const newCenterX = (firstPage.getWidth() - newTextWidth) / 2;
-
-  // Draw the text centered and dynamically sized
-  firstPage.drawText(name, {
-    x: newCenterX,
-    y: 520,  // You can adjust this coordinate as you prefer
-    size: fontSize,
-    font: SanChezFont,
-    color: rgb(192 / 255, 192 / 255, 192 / 255),
   });
-
-  // Serialize the PDFDocument to bytes (a Uint8Array)
-  const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-  saveAs(pdfDataUri,"newcertificate.pdf")
-};
+  
+  function saveAs(uri, filename) {
+      const link = document.createElement("a");
+      link.href = uri;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  }
