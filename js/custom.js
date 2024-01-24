@@ -53,6 +53,13 @@ function myMap() {
     window.location.href = "service.html";
   }
 
+  // Importa fontkit
+const fontkit = require('fontkit');
+const { PDFDocument, rgb } = PDFLib;
+
+// Registra fontkit con PDFDocument
+PDFDocument.registerFontkit(fontkit);
+
   // GENERATORE CERTIFICATO
   console.log("hello");
 
