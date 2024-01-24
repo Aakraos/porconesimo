@@ -115,10 +115,7 @@ function myMap() {
   });
   
   function saveAs(uri, filename) {
-      const link = document.createElement("a");
-      link.href = uri;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-  }
+    const newWindow = window.open();
+    newWindow.document.write('<iframe src="' + uri + '" frameborder="0" allowfullscreen></iframe>');
+    newWindow.document.title = filename;
+}
