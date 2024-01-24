@@ -77,7 +77,7 @@ function myMap() {
               const existingPdfBytes = await responsePdf.arrayBuffer();
   
               const pdfDoc = await PDFDocument.load(existingPdfBytes);
-              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf', {
+              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf', {
                   method: 'GET',
                   mode: 'cors',
               }).then((res) => res.arrayBuffer());
@@ -126,3 +126,48 @@ function myMap() {
     // Rimuovi il link dal documento
     document.body.removeChild(link);
 }
+
+// TEST
+
+submitBtn.addEventListener("click", () => {
+  const val = userName.value;
+  if (val.trim() !== "" && userName.checkValidity()) {
+      generateAndDisplayPDF(val);
+  } else {
+      userName.reportValidity();
+  }
+});
+
+const generateAndDisplayPDF = async (name) => {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage();
+
+  const fontBytes = await fetch("https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf").then((res) =>
+      res.arrayBuffer()
+  );
+  const font = await pdfDoc.embedFont(fontBytes);
+
+  page.drawText(name, {
+      x: 50,
+      y: 500,
+      size: 12,
+      font: font,
+      color: rgb(0, 0, 0),
+  });
+
+  // ... Altre modifiche al PDF, se necessario ...
+
+  const pdfBytes = await pdfDoc.save();
+
+  // Converti i byte del PDF in un URL dati per visualizzarlo in un iframe
+  const pdfDataUri = "data:application/pdf;base64," + btoa(String.fromCharCode(...new Uint8Array(pdfBytes)));
+
+  // Crea un iframe e visualizza il PDF
+  const iframe = document.createElement("iframe");
+  iframe.src = pdfDataUri;
+  iframe.width = "100%";
+  iframe.height = "500px";
+
+  // Aggiungi l'iframe alla pagina
+  document.body.appendChild(iframe);
+};
