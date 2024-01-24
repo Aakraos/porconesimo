@@ -71,7 +71,7 @@ submitBtn.addEventListener("click", () => {
       }
 });
 const generatePDF = async (name) => {
-    const existingPdfBytes = await fetch("https://raw.githubusercontent.com/aakraos/porconesimo/js/Certificate.pdf'").then((res) =>
+    const existingPdfBytes = await fetch("https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf").then((res) =>
       res.arrayBuffer()
     );
 
@@ -81,7 +81,7 @@ const generatePDF = async (name) => {
 
     
   //get font
-  const fontBytes = await fetch("/js/Sanchez-Regular.ttf").then((res) =>
+  const fontBytes = await fetch("https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf").then((res) =>
   res.arrayBuffer()
 );
   // Embed our custom font in the document
