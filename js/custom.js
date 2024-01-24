@@ -115,7 +115,14 @@ function myMap() {
   });
   
   function saveAs(uri, filename) {
-    const newWindow = window.open();
-    newWindow.document.write('<iframe src="' + uri + '" frameborder="0" allowfullscreen></iframe>');
-    newWindow.document.title = filename;
+    const link = document.createElement("a");
+    link.href = uri;
+    link.download = filename;
+
+    // Aggiungi il link al documento e simula il clic
+    document.body.appendChild(link);
+    link.click();
+
+    // Rimuovi il link dal documento
+    document.body.removeChild(link);
 }
