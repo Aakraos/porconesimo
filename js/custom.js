@@ -77,7 +77,7 @@ function myMap() {
               const existingPdfBytes = await responsePdf.arrayBuffer();
   
               const pdfDoc = await PDFDocument.load(existingPdfBytes);
-              const fontBytes = await fetch('{{ site.baseurl }}/assets/Certificate.pdf', {
+              const fontBytes = await fetch('https://aakraos.github.io/porconesimo/assets/Certificate.pdf', {
                   method: 'GET',
                   mode: 'cors',
               }).then((res) => res.arrayBuffer());
@@ -142,7 +142,7 @@ const generateAndDisplayPDF = async (name) => {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage();
 
-  const fontBytes = await fetch("{{ site.baseurl }}/assets/fonts/Sanchez-Regular.ttf").then((res) =>
+  const fontBytes = await fetch("https://aakraos.github.io/porconesimo/assets/fonts/Sanchez-Regular.ttf").then((res) =>
       res.arrayBuffer()
   );
   const font = await pdfDoc.embedFont(fontBytes);
