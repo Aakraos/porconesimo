@@ -65,7 +65,7 @@ function myMap() {
       const val = userName.value;
       if (val.trim() !== "" && userName.checkValidity()) {
           try {
-              const responsePdf = await fetch('/js/Certificate.pdf', {
+              const responsePdf = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Certificate.pdf', {
                   method: 'GET',
                   mode: 'cors',
               });
@@ -77,7 +77,7 @@ function myMap() {
               const existingPdfBytes = await responsePdf.arrayBuffer();
   
               const pdfDoc = await PDFDocument.load(existingPdfBytes);
-              const fontBytes = await fetch('/js/Sanchez-Regular.ttf', {
+              const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf', {
                   method: 'GET',
                   mode: 'cors',
               }).then((res) => res.arrayBuffer());
