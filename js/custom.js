@@ -54,18 +54,19 @@ function myMap() {
   }
 
   // Importa fontkit
-const fontkit = require('fontkit');
-const { PDFDocument, rgb } = PDFLib;
+  import { PDFDocument, rgb } from 'pdf-lib';
+  import fontkit from 'fontkit';
+  
+  // Registra fontkit con PDFDocument
+  PDFDocument.registerFontkit(fontkit);
 
-// Registra fontkit con PDFDocument
-PDFDocument.registerFontkit(fontkit);
 
   // GENERATORE CERTIFICATO
   console.log("hello");
 
   const userName = document.getElementById("name");
   const submitBtn = document.getElementById("submitBtn");
-  
+
   submitBtn.addEventListener("click", async () => {
       const val = userName.value;
   
