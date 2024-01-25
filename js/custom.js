@@ -58,7 +58,7 @@ function myMap() {
 
   const userName = document.getElementById("name");
   const submitBtn = document.getElementById("submitBtn");
-
+  
   submitBtn.addEventListener("click", async () => {
       const val = userName.value;
   
@@ -75,7 +75,8 @@ function myMap() {
   
               const existingPdfBytes = await responsePdf.arrayBuffer();
   
-              const pdfDoc = await PDFDocument.load(existingPdfBytes);
+              // Utilizza la libreria PDFLib
+              const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
   
               // Correggi il percorso del font
               const fontBytes = await fetch('https://raw.githubusercontent.com/aakraos/porconesimo/main/js/Sanchez-Regular.ttf', {
@@ -99,7 +100,7 @@ function myMap() {
                   y: 520,
                   size: fontSize,
                   font: font,
-                  color: rgb(192 / 255, 192 / 255, 192 / 255),
+                  color: PDFLib.rgb(192 / 255, 192 / 255, 192 / 255),
               });
   
               // Aggiungi eventuali altre modifiche al PDF, se necessario
@@ -129,3 +130,4 @@ function myMap() {
       // Rimuovi il link dal documento
       document.body.removeChild(link);
   }
+  
