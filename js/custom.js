@@ -54,11 +54,11 @@ function myMap() {
   }
 
   // Importa fontkit
-  import { PDFDocument, rgb } from 'pdf-lib';
-  import fontkit from 'fontkit';
+  //import { PDFDocument, rgb } from 'pdf-lib';
+  //import fontkit from 'fontkit';
   
   // Registra fontkit con PDFDocument
-  PDFDocument.registerFontkit(fontkit);
+  //PDFDocument.registerFontkit(fontkit);
 
 
   // GENERATORE CERTIFICATO
