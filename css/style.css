@@ -823,6 +823,11 @@ a:focus {
           transform: translateX(-50%);
 }
 
+/* about section */
+.col-lg-5 col-md-6 {
+  background-color: #FCEEF1;
+}
+
 /* certificate section */
 .header_certificate{
   padding: 150px;
