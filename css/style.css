@@ -5,8 +5,8 @@ body {
 }
 
 .layout_padding {
-  padding-top: 120px;
-  padding-bottom: 120px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .layout_padding2 {
@@ -717,7 +717,7 @@ a:focus {
 }
 
 .info_section {
-  padding: 75px 0;
+  padding: 25px 0 10px 0;
   background-color: #2A2D43;
   text-align: center;
   color: #fff;
@@ -974,6 +974,11 @@ input[type="submit"] {
   color: #ffffff;
   text-align: center;
   border-top: 0.8px solid #ffffff;
+}
+
+.footer_section span {
+  display: inline;  // Imposta il display a "inline"
+  vertical-align: middle;  // Allinea verticalmente rispetto al centro
 }
 
 .footer_section a {

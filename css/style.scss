@@ -802,6 +802,11 @@ a:focus {
   border-top: .8px solid $white;
 }
 
+.footer_section span {
+  display: inline;  // Imposta il display a "inline"
+  vertical-align: middle;  // Allinea verticalmente rispetto al centro
+}
+
 .footer_section a {
   color: inherit;
 }
